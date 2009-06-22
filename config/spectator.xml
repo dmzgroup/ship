@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzEntityPluginFreeFly" reserve="true"/>
+   <plugin name="dmzEntityPluginPortalTether" scope="freefly"/>
+   <plugin name="dmzEntityPluginTeleport"/>
+   <plugin name="dmzObjectPluginTimeout"/>
+   <plugin name="dmzRenderPluginRadarOverlay" scope="radar"/>
+</plugin-list>
+<lua>
+   <instance name="dmzEntityPluginFreeFly" scope="freefly"/>
+</lua>
+<freefly>
+   <movement speed="100" turn-rate="2.4"/>
+   <offset x="0.0" y="0.0" z="0.0"/>
+</freefly>
+<radar>
+   <radius value="512.0"/>
+   <range value="1000" min="100.0"/>
+</radar>
+<archive>
+   <object type="spectator">
+      <attributes>
+         <position x="60.814667" y="31.426222" z="-59.449456"/>
+         <orientation
+            v0="-0.484363" v1="-0.208902" v2="0.849560"
+            v3="0.000000"  v4="0.971073"  v5="0.238781"
+            v6="-0.874867" v7="0.115657"  v8="-0.470352"
+         />
+         <velocity x="0.0" y="0.0" z="0.0"/>
+         <acceleration x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+      <attributes name="Object_Human_In_The_Loop">
+         <flag value="true"/>
+      </attributes>
+   </object>
+   <object type="lcs">
+      <attributes>
+         <position x="0" y="-3.0" z="-4"/>
+         <orientation
+            v0="1.0" v1="0.0" v2="0.0"
+            v3="0.0" v4="1.0" v5="0.0"
+            v6="0.0" v7="0.0" v8="1.0"
+         />
+         <velocity x="0.0" y="0.0" z="0.0"/>
+         <acceleration x="0.0" y="0.0" z="0.0"/>
+      </attributes>
+      <attributes name="Object_Ship_Local">
+         <flag value="true"/>
+      </attributes>
+   </object>
+</archive>
+</dmz>
+  

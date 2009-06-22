@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<runtime>
+<resource-map>
+   <search>
+      <path value="../../assets/ship/models"/>
+      <path value="../../assets/ship/terrain"/>
+      <path value="../../assets/ship/images"/>
+      <path value="./assets/"/>
+   </search>
+   <search name="audio">
+      <path value="../../assets/ship/sounds"/>
+      <path value="./assets/"/>
+   </search>
+   <search name="font">
+      <path value="../../assets/ship/fonts"/>
+      <path value="./assets/"/>
+   </search>
+   <resource name="spectator font" file="data-latin.ttf" path="font"/>
+   <resource name="npsnet" file="npsnet_overlay.png"/>
+   <resource name="smoke" file="particle.png"/>
+   <resource name="fire" file="particle.png"/>
+   <resource name="water" file="water.png"/>
+   <resource name="dust-trail" file="particle.png"/>
+   <resource name="spectator cross" file="spectator_cross.png"/>
+   <resource name="spectator rings" file="spectator_rings.png"/>
+   <resource name="sky dome" file="skydome.ive"/>
+   <resource name="lcs" file="lcs-dmz.ive"/>
+   <resource name="collision-sound" file="collision.wav" path="audio"/>
+   <resource name="launch-sound" file="launch.wav" path="audio"/>
+   <resource name="detonation-sound" file="explosion.wav" path="audio"/>
+</resource-map>
+</runtime>
+</dmz>

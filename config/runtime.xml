@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmz>
+<runtime>
+   <time>
+      <frequency value="0.0"/>
+   </time>
+   <state name="Dead"/>
+   <state name="Smoking"/>
+   <state name="Fire"/>
+   <event-type name="Event_Launch">
+      <audio resource="launch-sound"/>
+      <net>
+         <enum value="16"/>
+      </net>
+   </event-type>
+   <event-type name="Event_Detonation">
+      <audio resource="detonation-sound"/>
+      <net>
+         <enum value="17"/>
+      </net>
+   </event-type>
+   <event-type name="Event_Collision">
+      <net>
+         <enum value="18"/>
+      </net>
+   </event-type>
+   <object-type name="spectator">
+   </object-type>
+   <object-type name="munitions">
+      <render>
+         <isect disable="true"/>
+      </render>
+      <net>
+         <enum value="2"/>
+      </net>
+   </object-type>
+   <object-type name="vehicle">
+      <net>
+         <enum value="1"/>
+      </net>
+   </object-type>
+   <object-type name="aquatic-vehicle" parent="vehicle">
+      <net>
+         <enum value="1.3"/>
+      </net>
+   </object-type>
+   <object-type name="ship" parent="aquatic-vehicle">
+      <net>
+         <enum value="1.3.1"/>
+      </net>
+   </object-type>
+   <object-type name="lcs" parent="ship">
+      <net>
+         <enum value="1.3.1.1"/>
+      </net>
+      <render>
+         <model resource="lcs"/>
+      </render>
+   </object-type>
+</runtime>
+</dmz>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzRenderModuleIsectOSG"/>
+   <plugin name="dmzRenderModulePortalOSG" scope="render"/>
+   <plugin name="dmzRenderPluginStaticTerrainOSG" scope="terrain"/>
+   <plugin name="dmzRenderPluginWavesOSG" scope="terrain"/>
+   <plugin name="dmzRenderPluginObjectOSG"/>
+   <plugin name="dmzRenderPluginParticleEffectsOSG"/>
+   <plugin name="dmzRenderPluginArticulateOSG"/>
+   <plugin name="dmzRenderPluginDisableObjectIsect"/>
+   <plugin name="dmzRenderPluginLightingOSG" scope="render"/>
+   <plugin name="dmzRenderModuleOverlayOSG" scope="overlay"/>
+   <!--
+      Note: Setting this module to unload="false" stops the crash on exit
+            under Linux. This seems to be cause by an "on exit" call in
+            OSG.
+   -->
+   <plugin name="dmzRenderModuleCoreOSGBasic" scope="render" platform="win32|macos"/>
+   <plugin name="dmzRenderModuleCoreOSGBasic" scope="render" platform="linux" unload="false"/>
+</plugin-list>
+<render>
+   <plugin-list>
+      <plugin name="dmzRenderExtViewerOSG" scope="viewer"/>
+   </plugin-list>
+   <viewer>
+      <window-title value="NPSNET: LCS"/>
+   </viewer>
+   <visibility fov="60.0" near="1.0" far="32000.0"/>
+</render>
+<terrain>
+   <model resource="sky dome" isect="false"/>
+</terrain>
+</dmz>
