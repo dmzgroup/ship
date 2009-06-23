@@ -24,6 +24,7 @@
    <resource name="dust-trail" file="particle.png"/>
    <resource name="spectator cross" file="spectator_cross.png"/>
    <resource name="spectator rings" file="spectator_rings.png"/>
+   <resource name="radar ship" file="radar_ship.png"/>
    <resource name="sky dome" file="skydome.ive"/>
    <resource name="lcs" file="lcs-dmz.ive"/>
    <resource name="collision-sound" file="collision.wav" path="audio"/>

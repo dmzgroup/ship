@@ -136,6 +136,7 @@
       <y size="1024" ratio="0.9" min="512" max="1024"/>
    </auto-scale>
    <color name="spectator ring color" r="0" g="1" b="0" a="0.5"/>
+<!--
    <template name="red dot">
       <node type="switch" name="switch">
          <node type="transform" name="transform">
@@ -157,6 +158,20 @@
                <max x="32" y="32"/>
                <color r="0" g="0" b="1"/>
                <texture resource="radar tank"/>
+               <depth value="2"/>
+            </node>
+         </node>
+      </node>
+   </template>
+-->
+   <template name="green ship">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-32" y="-32"/>
+               <max x="32" y="32"/>
+               <color r="0" g="1" b="0"/>
+               <texture resource="radar ship"/>
                <depth value="2"/>
             </node>
          </node>
