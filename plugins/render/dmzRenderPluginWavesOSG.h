@@ -45,9 +45,12 @@ namespace dmz {
          Resources _rc;
 
          String _imageResource;
-         Float32 _tileSize;
          Float32 _minGrid;
          Float32 _maxGrid;
+         Int32 _tileCountX;
+         Int32 _tileCountY;
+         Float32 _tileSizeX;
+         Float32 _tileSizeY;
 
          RenderModuleCoreOSG *_core;
 

@@ -25,9 +25,12 @@ dmz::RenderPluginWavesOSG::RenderPluginWavesOSG (const PluginInfo &Info, Config 
       _log (Info),
       _time (Info),
       _rc (Info),
-      _tileSize (50.0),
-      _minGrid (-5000.0),
-      _maxGrid (5000.0),
+      _minGrid (-5000.0f),
+      _maxGrid (5000.0f),
+      _tileCountX (2),
+      _tileCountY (200),
+      _tileSizeX ((_maxGrid - _minGrid) / Float32 (_tileCountX)),
+      _tileSizeY ((_maxGrid - _minGrid) / Float32 (_tileCountY)),
       _core (0),
       _gridPoints (0) {
 
@@ -93,34 +96,32 @@ dmz::RenderPluginWavesOSG::update_time_slice (const Float64 TimeDelta) {
 
    if (_surface.valid () && _gridPoints) {
 
-      const Float64 CTime = _time.get_frame_time ();
+      const Float64 CTime = _time.get_frame_time () * 2.0;
 
-      osg::Vec3Array *vertices = new osg::Vec3Array;
+      osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
 
       unsigned int count (0);
 
-      const Int32 GridSize (Int32 ((_maxGrid - _minGrid) / _tileSize));
+      for (Int32 ix = 0; ix < _tileCountX; ix++) {
 
-      for (Int32 ix = 0; ix < GridSize; ix++) {
-
-         for (Int32 jy = 0; jy < GridSize; jy++) {
+         for (Int32 jy = 0; jy < _tileCountY; jy++) {
 
             VertexStruct *v (0);
 
-            float k = 3.0f;
-            float f = 0.005f;
+            float k = 0.5f;
+            float f = 0.1f; // 0.1f;
             float h = 0.0f;
-            float g = HalfPi32;
-            v = &(_gridPoints[(ix * (GridSize + 1)) + jy + 1]);
+            float g = 0.0f;
+            v = &(_gridPoints[(ix * (_tileCountY + 1)) + jy + 1]);
             h = sin ((v->y * f + g) + CTime) * k;
             vertices->push_back (osg::Vec3 (v->x, h, v->y));
-            v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy + 1]);
+            v = &(_gridPoints[((ix + 1) * (_tileCountY + 1)) + jy + 1]);
             h = sin ((v->y * f + g) + CTime) * k;
             vertices->push_back (osg::Vec3 (v->x, h, v->y));
-            v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy]);
+            v = &(_gridPoints[((ix + 1) * (_tileCountY + 1)) + jy]);
             h = sin ((v->y * f + g) + CTime) * k;
             vertices->push_back (osg::Vec3 (v->x, h, v->y));
-            v = &(_gridPoints[(ix * (GridSize + 1)) + jy]);
+            v = &(_gridPoints[(ix * (_tileCountY + 1)) + jy]);
             h = sin ((v->y * f + g) + CTime) * k;
             vertices->push_back (osg::Vec3 (v->x, h, v->y));
 
@@ -128,7 +129,7 @@ dmz::RenderPluginWavesOSG::update_time_slice (const Float64 TimeDelta) {
          }
       }
 
-      _surface->setVertexArray (vertices);
+      _surface->setVertexArray (vertices.get ());
    }
 }
 
@@ -143,9 +144,7 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
    if (img.valid () && _core) {
 
-      const Int32 GridSize (Int32 ((_maxGrid - _minGrid) / _tileSize));
-
-      const Int32 ArraySize ((GridSize + 1) * (GridSize + 1));
+      const Int32 ArraySize ((_tileCountX + 1) * (_tileCountY + 1));
 
       if (!_gridPoints) { _gridPoints = new VertexStruct[ArraySize]; }
 
@@ -153,15 +152,15 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
       if (_gridPoints && geode) {
 
-         for (Int32 ix = 0; ix <= GridSize; ix++) {
+         for (Int32 ix = 0; ix <= _tileCountX; ix++) {
 
-            const Float32 TheX ((Float32 (ix) * _tileSize) + _minGrid);
+            const Float32 TheX ((Float32 (ix) * _tileSizeX) + _minGrid);
 
-            for (Int32 jy = 0; jy <= GridSize; jy++) {
+            for (Int32 jy = 0; jy <= _tileCountY; jy++) {
 
-               const Float32 TheY ((Float32 (jy) * _tileSize) + _minGrid);
+               const Float32 TheY ((Float32 (jy) * _tileSizeY) + _minGrid);
 
-               const Int32 Offset ((ix * (GridSize + 1)) + jy);
+               const Int32 Offset ((ix * (_tileCountY + 1)) + jy);
                _gridPoints[Offset].x = TheX;
                _gridPoints[Offset].y = TheY;
             }
@@ -169,61 +168,55 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
          _surface = new osg::Geometry;
 
-         osg::Vec3Array* normals = new osg::Vec3Array;
+         osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array;
          normals->push_back (osg::Vec3 (0.0f, 1.0f, 0.0f));
-         _surface->setNormalArray (normals);
+         _surface->setNormalArray (normals.get ());
          _surface->setNormalBinding (osg::Geometry::BIND_OVERALL);
 
-         osg::Vec4Array* colors = new osg::Vec4Array;
+         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
          colors->push_back (osg::Vec4 (0.0f, 0.9f, 0.9f, 1.0f));
-         _surface->setColorArray (colors);
+         _surface->setColorArray (colors.get ());
          _surface->setColorBinding (osg::Geometry::BIND_OVERALL);
 
          osg::StateSet *stateset = _surface->getOrCreateStateSet ();
          stateset->setMode (GL_BLEND, osg::StateAttribute::ON);
          stateset->setRenderingHint (osg::StateSet::TRANSPARENT_BIN);
 
-         osg::Vec3Array *vertices = new osg::Vec3Array;
-         osg::Vec2Array *tcoords = new osg::Vec2Array;
+         osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
+         osg::ref_ptr<osg::Vec2Array> tcoords = new osg::Vec2Array;
 
-         osg::Texture2D *tex = new osg::Texture2D (img.get ());
+         osg::ref_ptr<osg::Texture2D> tex = new osg::Texture2D (img.get ());
          tex->setWrap (osg::Texture2D::WRAP_S, osg::Texture2D::REPEAT);
          tex->setWrap (osg::Texture2D::WRAP_T, osg::Texture2D::REPEAT);
 
-         stateset->setTextureAttributeAndModes (0, tex, osg::StateAttribute::ON);
+         stateset->setTextureAttributeAndModes (0, tex.get (), osg::StateAttribute::ON);
 
          stateset->setAttributeAndModes (new osg::CullFace (osg::CullFace::BACK));
 
          unsigned int count (0);
 
-         for (Int32 ix = 0; ix < GridSize; ix++) {
+         for (Int32 ix = 0; ix < _tileCountX; ix++) {
 
-            for (Int32 jy = 0; jy < GridSize; jy++) {
+            for (Int32 jy = 0; jy < _tileCountY; jy++) {
 
                VertexStruct *v (0);
 
-               float k = 3.0f;
-               float f = 0.03f;
                float h = 0.0f;
-               float g = HalfPi32;
-               v = &(_gridPoints[(ix * (GridSize + 1)) + jy + 1]);
-               h = sin (v->y * f + g) * k;
+               v = &(_gridPoints[(ix * (_tileCountY + 1)) + jy + 1]);
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy + 1]);
-               h = sin (v->y * f + g) * k;
+               v = &(_gridPoints[((ix + 1) * (_tileCountY + 1)) + jy + 1]);
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy]);
-               h = sin (v->y * f + g) * k;
+               v = &(_gridPoints[((ix + 1) * (_tileCountY + 1)) + jy]);
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(_gridPoints[(ix * (GridSize + 1)) + jy]);
-               h = sin (v->y * f + g) * k;
+               v = &(_gridPoints[(ix * (_tileCountY + 1)) + jy]);
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
 
-               const float Factor (1.0);
+               const float FactorX (1.0);
+               const float FactorY (float (_tileCountY) / float (_tileCountX));
                tcoords->push_back (osg::Vec2 (0.0, 0.0));
-               tcoords->push_back (osg::Vec2 (0.0, Factor));
-               tcoords->push_back (osg::Vec2 (Factor, Factor));
-               tcoords->push_back (osg::Vec2 (Factor, 0.0));
+               tcoords->push_back (osg::Vec2 (0.0, FactorY));
+               tcoords->push_back (osg::Vec2 (FactorX, FactorY));
+               tcoords->push_back (osg::Vec2 (FactorX, 0.0));
 
                count += 4;
             }
@@ -231,10 +224,10 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
          _surface->addPrimitiveSet (new osg::DrawArrays (GL_QUADS, 0, count));
 
-         _surface->setVertexArray (vertices);
-         _surface->setTexCoordArray (0, tcoords);
+         _surface->setVertexArray (vertices.get ());
+         _surface->setTexCoordArray (0, tcoords.get ());
          _surface->setUseDisplayList (false);
-         _surface->setUseVertexBufferObjects (true);
+         _surface->setUseVertexBufferObjects (false);
          geode->addDrawable (_surface);
 
          osg::Group *s = _core->get_static_objects ();
@@ -252,9 +245,11 @@ dmz::RenderPluginWavesOSG::_init (Config &local) {
 
    _imageResource = config_to_string ("image.resource", local, "water");
 
+/*
    _tileSize = config_to_float64 ("tile.size", local, _tileSize);
    _minGrid = config_to_float64 ("tile.min", local, _minGrid);
    _maxGrid = config_to_float64 ("tile.max", local, _maxGrid);
+*/
 }
 
 
