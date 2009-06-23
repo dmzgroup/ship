@@ -21,12 +21,15 @@
 
 dmz::RenderPluginWavesOSG::RenderPluginWavesOSG (const PluginInfo &Info, Config &local) :
       Plugin (Info),
+      TimeSlice (Info),
       _log (Info),
+      _time (Info),
       _rc (Info),
       _tileSize (50.0),
       _minGrid (-5000.0),
       _maxGrid (5000.0),
-      _core (0) {
+      _core (0),
+      _gridPoints (0) {
 
    _init (local);
 }
@@ -34,6 +37,7 @@ dmz::RenderPluginWavesOSG::RenderPluginWavesOSG (const PluginInfo &Info, Config 
 
 dmz::RenderPluginWavesOSG::~RenderPluginWavesOSG () {
 
+   if (_gridPoints) { delete []_gridPoints; _gridPoints = 0; }
 }
 
 
@@ -74,7 +78,57 @@ dmz::RenderPluginWavesOSG::discover_plugin (
    }
    else if (Mode == PluginDiscoverRemove) {
 
-      if (_core &&  (_core == RenderModuleCoreOSG::cast (PluginPtr))) { _core = 0; }
+      if (_core &&  (_core == RenderModuleCoreOSG::cast (PluginPtr))) {
+
+         _surface = 0;
+         _core = 0;
+      }
+   }
+}
+
+
+// TimeSlice Interface
+void
+dmz::RenderPluginWavesOSG::update_time_slice (const Float64 TimeDelta) {
+
+   if (_surface.valid () && _gridPoints) {
+
+      const Float64 CTime = _time.get_frame_time ();
+
+      osg::Vec3Array *vertices = new osg::Vec3Array;
+
+      unsigned int count (0);
+
+      const Int32 GridSize (Int32 ((_maxGrid - _minGrid) / _tileSize));
+
+      for (Int32 ix = 0; ix < GridSize; ix++) {
+
+         for (Int32 jy = 0; jy < GridSize; jy++) {
+
+            VertexStruct *v (0);
+
+            float k = 3.0f;
+            float f = 0.005f;
+            float h = 0.0f;
+            float g = HalfPi32;
+            v = &(_gridPoints[(ix * (GridSize + 1)) + jy + 1]);
+            h = sin ((v->y * f + g) + CTime) * k;
+            vertices->push_back (osg::Vec3 (v->x, h, v->y));
+            v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy + 1]);
+            h = sin ((v->y * f + g) + CTime) * k;
+            vertices->push_back (osg::Vec3 (v->x, h, v->y));
+            v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy]);
+            h = sin ((v->y * f + g) + CTime) * k;
+            vertices->push_back (osg::Vec3 (v->x, h, v->y));
+            v = &(_gridPoints[(ix * (GridSize + 1)) + jy]);
+            h = sin ((v->y * f + g) + CTime) * k;
+            vertices->push_back (osg::Vec3 (v->x, h, v->y));
+
+            count += 4;
+         }
+      }
+
+      _surface->setVertexArray (vertices);
    }
 }
 
@@ -93,17 +147,11 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
       const Int32 ArraySize ((GridSize + 1) * (GridSize + 1));
 
-      struct vertex {
-
-         Float32 x, y;
-         vertex () : x (0.0f), y (0.0f) {;}
-      };
-
-      vertex *gridPoints = new vertex[ArraySize];
+      if (!_gridPoints) { _gridPoints = new VertexStruct[ArraySize]; }
 
       osg::Geode* geode = new osg::Geode ();
 
-      if (gridPoints && geode) {
+      if (_gridPoints && geode) {
 
          for (Int32 ix = 0; ix <= GridSize; ix++) {
 
@@ -114,24 +162,24 @@ dmz::RenderPluginWavesOSG::_create_grid () {
                const Float32 TheY ((Float32 (jy) * _tileSize) + _minGrid);
 
                const Int32 Offset ((ix * (GridSize + 1)) + jy);
-               gridPoints[Offset].x = TheX;
-               gridPoints[Offset].y = TheY;
+               _gridPoints[Offset].x = TheX;
+               _gridPoints[Offset].y = TheY;
             }
          }
 
-         osg::Geometry* geom = new osg::Geometry;
+         _surface = new osg::Geometry;
 
          osg::Vec3Array* normals = new osg::Vec3Array;
          normals->push_back (osg::Vec3 (0.0f, 1.0f, 0.0f));
-         geom->setNormalArray (normals);
-         geom->setNormalBinding (osg::Geometry::BIND_OVERALL);
+         _surface->setNormalArray (normals);
+         _surface->setNormalBinding (osg::Geometry::BIND_OVERALL);
 
          osg::Vec4Array* colors = new osg::Vec4Array;
          colors->push_back (osg::Vec4 (0.0f, 0.9f, 0.9f, 1.0f));
-         geom->setColorArray (colors);
-         geom->setColorBinding (osg::Geometry::BIND_OVERALL);
+         _surface->setColorArray (colors);
+         _surface->setColorBinding (osg::Geometry::BIND_OVERALL);
 
-         osg::StateSet *stateset = geom->getOrCreateStateSet ();
+         osg::StateSet *stateset = _surface->getOrCreateStateSet ();
          stateset->setMode (GL_BLEND, osg::StateAttribute::ON);
          stateset->setRenderingHint (osg::StateSet::TRANSPARENT_BIN);
 
@@ -152,22 +200,22 @@ dmz::RenderPluginWavesOSG::_create_grid () {
 
             for (Int32 jy = 0; jy < GridSize; jy++) {
 
-               vertex *v (0);
+               VertexStruct *v (0);
 
-               float k = 20.0f;
-               float f = 0.01f;
+               float k = 3.0f;
+               float f = 0.03f;
                float h = 0.0f;
                float g = HalfPi32;
-               v = &(gridPoints[(ix * (GridSize + 1)) + jy + 1]);
+               v = &(_gridPoints[(ix * (GridSize + 1)) + jy + 1]);
                h = sin (v->y * f + g) * k;
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(gridPoints[((ix + 1) * (GridSize + 1)) + jy + 1]);
+               v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy + 1]);
                h = sin (v->y * f + g) * k;
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(gridPoints[((ix + 1) * (GridSize + 1)) + jy]);
+               v = &(_gridPoints[((ix + 1) * (GridSize + 1)) + jy]);
                h = sin (v->y * f + g) * k;
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
-               v = &(gridPoints[(ix * (GridSize + 1)) + jy]);
+               v = &(_gridPoints[(ix * (GridSize + 1)) + jy]);
                h = sin (v->y * f + g) * k;
                vertices->push_back (osg::Vec3 (v->x, h, v->y));
 
@@ -181,20 +229,20 @@ dmz::RenderPluginWavesOSG::_create_grid () {
             }
          }
 
-         geom->addPrimitiveSet (new osg::DrawArrays (GL_QUADS, 0, count));
+         _surface->addPrimitiveSet (new osg::DrawArrays (GL_QUADS, 0, count));
 
-         geom->setVertexArray (vertices);
-         geom->setTexCoordArray (0, tcoords);
-         geode->addDrawable (geom);
+         _surface->setVertexArray (vertices);
+         _surface->setTexCoordArray (0, tcoords);
+         _surface->setUseDisplayList (false);
+         _surface->setUseVertexBufferObjects (true);
+         geode->addDrawable (_surface);
 
          osg::Group *s = _core->get_static_objects ();
 
          if (s) { s->addChild (geode); }
          else { _log.error << "Failed to add geode!" << endl; }
 
-         delete []gridPoints;
       }
-      else if (gridPoints) { delete []gridPoints; }
    }
 }
 

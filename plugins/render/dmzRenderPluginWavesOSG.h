@@ -4,14 +4,16 @@
 #include <dmzRuntimeLog.h>
 #include <dmzRuntimePlugin.h>
 #include <dmzRuntimeResources.h>
+#include <dmzRuntimeTimeSlice.h>
+#include <dmzRuntimeTime.h>
 
-#include <osg/Camera>
+#include <osg/Geometry>
 
 namespace dmz {
 
    class RenderModuleCoreOSG;
 
-   class RenderPluginWavesOSG : public Plugin {
+   class RenderPluginWavesOSG : public Plugin, public TimeSlice {
 
       public:
          RenderPluginWavesOSG (const PluginInfo &Info, Config &local);
@@ -26,11 +28,20 @@ namespace dmz {
             const PluginDiscoverEnum Mode,
             const Plugin *PluginPtr);
 
+         // TimeSlice Interface
+         virtual void update_time_slice (const Float64 TimeDelta);
+
       protected:
+         struct VertexStruct {
+            Float32 x, y;
+            VertexStruct () : x (0.0f), y (0.0f) {;}
+         };
+
          void _create_grid ();
          void _init (Config &local);
 
          Log _log;
+         Time _time;
          Resources _rc;
 
          String _imageResource;
@@ -39,6 +50,9 @@ namespace dmz {
          Float32 _maxGrid;
 
          RenderModuleCoreOSG *_core;
+
+         VertexStruct *_gridPoints;
+         osg::ref_ptr<osg::Geometry> _surface;
 
       private:
          RenderPluginWavesOSG ();
