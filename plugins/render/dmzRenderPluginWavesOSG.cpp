@@ -96,7 +96,7 @@ dmz::RenderPluginWavesOSG::update_time_slice (const Float64 TimeDelta) {
 
    if (_surface.valid () && _gridPoints) {
 
-      const Float64 CTime = _time.get_frame_time () * 2.0;
+      const Float64 CTime = _time.get_frame_time () * 1.0;
 
       osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array;
 
@@ -108,8 +108,8 @@ dmz::RenderPluginWavesOSG::update_time_slice (const Float64 TimeDelta) {
 
             VertexStruct *v (0);
 
-            float k = 0.5f;
-            float f = 0.1f; // 0.1f;
+            float k = 2.5f;
+            float f = 0.01f; // 0.1f;
             float h = 0.0f;
             float g = 0.0f;
             v = &(_gridPoints[(ix * (_tileCountY + 1)) + jy + 1]);
@@ -174,7 +174,8 @@ dmz::RenderPluginWavesOSG::_create_grid () {
          _surface->setNormalBinding (osg::Geometry::BIND_OVERALL);
 
          osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array;
-         colors->push_back (osg::Vec4 (0.0f, 0.9f, 0.9f, 1.0f));
+         //colors->push_back (osg::Vec4 (0.0f, 0.5f, 1.0f, 0.8f));
+         colors->push_back (osg::Vec4 (1.0f, 1.0f, 1.0f, 0.65f));
          _surface->setColorArray (colors.get ());
          _surface->setColorBinding (osg::Geometry::BIND_OVERALL);
 

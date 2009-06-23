@@ -27,6 +27,13 @@
       <window-title value="NPSNET: LCS"/>
    </viewer>
    <visibility fov="60.0" near="1.0" far="32000.0"/>
+   <light value="0">
+      <position x="0" y="10000" z="0"/>
+      <direction x="0" y="-1.0" z="-0.5"/>
+      <ambient r="0.2" g="0.2" b="0.2"/>
+      <diffuse r="0.9" g="0.9" b="0.9"/>
+      <specular r="0.2" g="0.2" b="0.2"/>
+   </light>
 </render>
 <terrain>
    <model resource="sky dome" isect="false"/>

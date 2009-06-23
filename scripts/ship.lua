@@ -39,7 +39,7 @@ local function update_time_slice (self, time)
          local up = v2:cross (v1)
          ori = dmz.matrix.new (dmz.math.up (), up) * rot
          dmz.object.orientation (self.ship, nil, ori)
-         pos:set_y ((((p1 + p2 + p3) * (1 / 3)):get_y (a)) - 4.5)
+         pos:set_y ((((p1 + p2 + p3) * (1 / 3)):get_y (a)) - 3.3)
          dmz.object.position (self.ship, nil, pos)
       end
    end
