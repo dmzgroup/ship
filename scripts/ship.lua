@@ -18,7 +18,7 @@ end
 local function update_time_slice (self, time)
    if self.ship then
       local pos = dmz.object.position (self.ship)
-      pos:set_z (pos:get_z () - 24 * time)
+      --pos:set_z (pos:get_z () - 24 * time)
       local ori = dmz.object.orientation (self.ship)
       if not pos then pos = dmz.vector.new () end
       if not ori then ori = dmz.matrix.new () end
