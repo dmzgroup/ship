@@ -22,6 +22,7 @@ local function update_time_slice (self, time)
       local ori = dmz.object.orientation (self.ship)
       if not pos then pos = dmz.vector.new () end
       if not ori then ori = dmz.matrix.new () end
+      local origPos = dmz.vector.new (pos)
       local heading = dmz.math.heading (ori)
       local rot = dmz.matrix.new (dmz.math.up (), heading)
       local offset = dmz.vector.new ({pos:get_x (), 200, pos:get_z ()})
@@ -41,6 +42,9 @@ local function update_time_slice (self, time)
          dmz.object.orientation (self.ship, nil, ori)
          pos:set_y ((((p1 + p2 + p3) * (1 / 3)):get_y (a)) - 3.3)
          dmz.object.position (self.ship, nil, pos)
+         if not dmz.math.is_zero (time) then
+            dmz.object.velocity (self.ship, nil, (pos - origPos) * (1 / time))
+         end
       end
    end
 end

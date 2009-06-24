@@ -5,7 +5,6 @@
    <plugin name="dmzLuaPluginReset" scope="lua"/>
 </plugin-list>
 <lua>
-   <time value="0.5"/>
    <path value="./scripts/?.lua"/>
    <extensions>
       <plugin name="dmzLuaExtInput"/>
@@ -16,6 +15,5 @@
       <plugin name="dmzLuaExtPortal"/>
       <plugin name="dmzQtExtLuaConsole"/>
    </extensions>
-   <instance name="ship"/>
 </lua>
 </dmz>

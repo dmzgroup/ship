@@ -3,6 +3,6 @@ require "lmkOSG"
 lmkOSG.set_name "dmzRenderPluginWavesOSG"
 lmk.set_type "plugin"
 lmk.add_files {"dmzRenderPluginWavesOSG.cpp",}
-lmk.add_libs { "dmzKernel", }
-lmk.add_preqs {"dmzRenderModuleCoreOSG",}
+lmk.add_libs {"dmzObjectUtil", "dmzKernel",}
+lmk.add_preqs {"dmzObjectFramework", "dmzRenderModuleCoreOSG",}
 lmkOSG.add_libs {"osgDB", "osg", "OpenThreads",}

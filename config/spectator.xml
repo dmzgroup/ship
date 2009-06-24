@@ -34,21 +34,6 @@
          <flag value="true"/>
       </attributes>
    </object>
-   <object type="lcs">
-      <attributes>
-         <position x="0" y="-3.0" z="-4"/>
-         <orientation
-            v0="1.0" v1="0.0" v2="0.0"
-            v3="0.0" v4="1.0" v5="0.0"
-            v6="0.0" v7="0.0" v8="1.0"
-         />
-         <velocity x="0.0" y="0.0" z="0.0"/>
-         <acceleration x="0.0" y="0.0" z="0.0"/>
-      </attributes>
-      <attributes name="Object_Ship_Local">
-         <flag value="true"/>
-      </attributes>
-   </object>
 </archive>
 </dmz>
   
