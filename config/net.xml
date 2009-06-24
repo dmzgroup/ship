@@ -18,8 +18,8 @@
    <packet id="6" name="NetCodecAquaticVehicle">
       <object-type name="aquatic-vehicle"/>
    </packet>
-   <packet id="7" name="NetCodecSeaState">
-      <object-type name="sea-state"/>
+   <packet id="7" name="NetCodecWaveState">
+      <object-type name="wave-state"/>
    </packet>
    <packet id="2" name="NetCodecShell">
       <object-type name="munitions"/>
@@ -34,7 +34,7 @@
       <event-type name="Event_Collision"/>
    </packet>
    <plugin-list>
-      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecSeaState"/>
+      <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecWaveState"/>
       <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecAquaticVehicle"/>
       <plugin name="dmzNetExtPacketCodecObjectNative" unique="NetCodecShell"/>
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecLaunch"/>
@@ -42,12 +42,12 @@
       <plugin name="dmzNetExtPacketCodecEventNative" unique="NetCodecCollision"/>
    </plugin-list>
 </dmzNetModulePacketCodecBasic>
-<NetCodecSeaState>
-   <adapter type="write-stamp" attribute="DMZ_Sea_Time_Seed"/>
-   <adapter type="scalar" attribute="DMZ_Sea_Wave_Speed" lnv="true"/>
-   <adapter type="scalar" attribute="DMZ_Sea_Wave_Amplitude" lnv="true"/>
-   <adapter type="scalar" attribute="DMZ_Sea_Wave_Number" lnv="true"/>
-</NetCodecSeaState>
+<NetCodecWaveState>
+   <adapter type="write-stamp" attribute="DMZ_Wave_State_Time_Seed"/>
+   <adapter type="scalar" attribute="DMZ_Wave_State_Speed" lnv="true"/>
+   <adapter type="scalar" attribute="DMZ_Wave_State_Amplitude" lnv="true"/>
+   <adapter type="scalar" attribute="DMZ_Wave_State_Number" lnv="true"/>
+</NetCodecWaveState>
 <NetCodecAquaticVehicle>
    <adapter type="position" lnv="true"/>
    <adapter type="orientation" lnv="true"/>

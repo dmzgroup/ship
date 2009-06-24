@@ -24,12 +24,12 @@
          <enum value="18"/>
       </net>
    </event-type>
-   <object-type name="sea-state">
+   <object-type name="wave-state">
       <net>
          <enum value="3"/>
-         <rule type="scalar" attribute="DMZ_Sea_Wave_Speed" value="0.0001"/>
-         <rule type="scalar" attribute="DMZ_Sea_Wave_Amplitude" value="0.0001"/>
-         <rule type="scalar" attribute="DMZ_Sea_Wave_Number" value="0.0001"/>
+         <rule type="scalar" attribute="DMZ_Wave_State_Speed" value="0.0001"/>
+         <rule type="scalar" attribute="DMZ_Wave_State_Amplitude" value="0.0001"/>
+         <rule type="scalar" attribute="DMZ_Wave_State_Number" value="0.0001"/>
          <rule type="rate-limit"/>
          <rule type="heartbeat" value="1.0"/>
       </net>

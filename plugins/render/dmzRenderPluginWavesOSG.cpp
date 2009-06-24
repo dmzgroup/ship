@@ -320,19 +320,19 @@ void
 dmz::RenderPluginWavesOSG::_init (Config &local) {
 
    activate_object_attribute (
-      config_to_string ("wave-time.attribute", local, "DMZ_Sea_Time_Seed"),
+      config_to_string ("wave-time.attribute", local, "DMZ_Wave_State_Time_Seed"),
       ObjectTimeStampMask);
 
    _waveSpeedAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-speed.attribute", local, "DMZ_Sea_Wave_Speed"),
+      config_to_string ("wave-speed.attribute", local, "DMZ_Wave_State_Speed"),
       ObjectScalarMask);
 
    _waveAmplitudeAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-amplitude.attribute", local, "DMZ_Sea_Wave_Amplitude"),
+      config_to_string ("wave-amplitude.attribute", local, "DMZ_Wave_State_Amplitude"),
       ObjectScalarMask);
 
    _waveNumberAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-number.attribute", local, "DMZ_Sea_Wave_Number"),
+      config_to_string ("wave-number.attribute", local, "DMZ_Wave_State_Number"),
       ObjectScalarMask);
 
    _imageResource = config_to_string ("image.resource", local, "water");

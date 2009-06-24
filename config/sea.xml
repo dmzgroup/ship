@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <dmz>
 <archive>
-   <object type="sea-state">
-      <attributes name="DMZ_Sea_Wave_Speed">
+   <object type="wave-state">
+      <attributes name="DMZ_Wave_State_Speed">
          <scalar value="1.0"/>
       </attributes>
-      <attributes name="DMZ_Sea_Wave_Amplitude">
+      <attributes name="DMZ_Wave_State_Amplitude">
          <scalar value="1.5"/>
       </attributes>
-      <attributes name="DMZ_Sea_Wave_Number">
+      <attributes name="DMZ_Wave_State_Number">
          <scalar value="0.01"/>
       </attributes>
    </object>
