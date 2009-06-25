@@ -47,9 +47,9 @@ namespace dmz {
             const Float64 *PreviousValue);
 
       protected slots:
-         void on_speedSpinBox_valueChanged (double value);
-         void on_amplitudeSpinBox_valueChanged (double value);
-         void on_periodSpinBox_valueChanged (double value);
+         void on_speedSlider_valueChanged (int value);
+         void on_amplitudeSlider_valueChanged (int value);
+         void on_periodSlider_valueChanged (int value);
 
       protected:
          void _update_attribute (const Handle Attribute, const Float64 Value);
@@ -65,6 +65,16 @@ namespace dmz {
          Handle _waveAmplitudeAttributeHandle;
          Handle _waveNumberAttributeHandle;
          Boolean _inUpdate;
+
+         Float64 _speedMin;
+         Float64 _speedRange;
+
+         Float64 _amplitudeMin;
+         Float64 _amplitudeRange;
+
+         Float64 _periodMin;
+         Float64 _periodRange;
+        
 
       private:
          QtPluginWaveState ();

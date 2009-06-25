@@ -20,7 +20,13 @@ dmz::QtPluginWaveState::QtPluginWaveState (const PluginInfo &Info, Config &local
       _waveSpeedAttributeHandle (0),
       _waveAmplitudeAttributeHandle (0),
       _waveNumberAttributeHandle (0),
-      _inUpdate (False) {
+      _inUpdate (False),
+      _speedMin (0.0),
+      _speedRange (5.0),
+      _amplitudeMin (0.0),
+      _amplitudeRange (30.0),
+      _periodMin (20.0),
+      _periodRange (980.0) {
 
 
    _ui.setupUi (this);
@@ -94,57 +100,7 @@ dmz::QtPluginWaveState::create_object (
       const ObjectType &Type,
       const ObjectLocalityEnum Locality) {
 
-   if (Type.is_of_type (_waveType)) {
-
-      _wave = ObjectHandle;
-
-      // Update widgets here
-
-      ObjectModule *objMod = get_object_module ();
-
-      if (objMod) {
-
-         Float64 value (0.0);
-
-         if (objMod->lookup_scalar (_wave, _waveSpeedAttributeHandle, value)) {
-
-            _ui.speedSpinBox->setValue (value);
-         }
-         else {
-
-            objMod->store_scalar (
-               _wave,
-               _waveSpeedAttributeHandle,
-               _ui.speedSpinBox->value ());
-         }
-
-         if (objMod->lookup_scalar (_wave, _waveAmplitudeAttributeHandle, value)) {
-
-            _ui.amplitudeSpinBox->setValue (value);
-         }
-         else {
-
-            objMod->store_scalar (
-               _wave,
-               _waveAmplitudeAttributeHandle,
-               _ui.amplitudeSpinBox->value ());
-         }
-
-         if (objMod->lookup_scalar (_wave, _waveNumberAttributeHandle, value)) {
-
-            if (value > 0.0) { _ui.periodSpinBox->setValue (1.0 / value); }
-         }
-         else {
-
-            value =  _ui.periodSpinBox->value ();
-
-            if (value > 0.0) {
-
-               objMod->store_scalar (_wave, _waveNumberAttributeHandle, 1.0 / value);
-            }
-         }
-      }
-   }
+   if (Type.is_of_type (_waveType)) { _wave = ObjectHandle; }
 }
 
 
@@ -165,18 +121,33 @@ dmz::QtPluginWaveState::update_object_scalar (
       const Float64 Value,
       const Float64 *PreviousValue) {
 
-   ObjectModule *objMod = get_object_module ();
-
    if (False == _inUpdate) {
 
       if (AttributeHandle == _waveSpeedAttributeHandle) {
 
+         if (_speedRange > 0.0) {
+
+            _ui.speedLabel->setNum (Value);
+            _ui.speedSlider->setValue (int (((Value - _speedMin) / _speedRange) * 100.0));
+         }
       }
       else if (AttributeHandle == _waveAmplitudeAttributeHandle) {
 
+         if (_amplitudeRange > 0.0) {
+
+            _ui.amplitudeLabel->setNum (Value);
+            _ui.amplitudeSlider->setValue (
+               int (((Value - _amplitudeMin) / _amplitudeRange) * 100.0));
+         }
       }
       else if (AttributeHandle == _waveNumberAttributeHandle) {
 
+         if ((Value > 0.0) && (_periodRange > 0.0)) {
+
+            _ui.periodLabel->setNum (1.0 / Value);
+            _ui.periodSlider->setValue (
+               int ((((1.0 / Value) - _periodMin) / _periodRange) * 100.0));
+         }
       }
    }
 }
@@ -184,23 +155,37 @@ dmz::QtPluginWaveState::update_object_scalar (
 
 // QtPluginWaveState Interface
 void
-dmz::QtPluginWaveState::on_speedSpinBox_valueChanged (double value) {
+dmz::QtPluginWaveState::on_speedSlider_valueChanged (int value) {
 
-   _update_attribute (_waveSpeedAttributeHandle, value);
+   const Float64 Update =
+      (Float64 (_ui.speedSlider->value ()) * 0.01 * _speedRange) + _speedMin;
+
+   _ui.speedLabel->setNum (Update);
+
+   _update_attribute (_waveSpeedAttributeHandle, Update);
 }
 
 
 void
-dmz::QtPluginWaveState::on_amplitudeSpinBox_valueChanged (double value) {
+dmz::QtPluginWaveState::on_amplitudeSlider_valueChanged (int value) {
 
-   _update_attribute (_waveAmplitudeAttributeHandle, value);
+   const Float64 Update =
+      (Float64 (_ui.amplitudeSlider->value ()) * 0.01 * _amplitudeRange) + _amplitudeMin;
+
+   _ui.amplitudeLabel->setNum (Update);
+
+   _update_attribute (_waveAmplitudeAttributeHandle, Update);
 }
 
 
 void
-dmz::QtPluginWaveState::on_periodSpinBox_valueChanged (double value) {
+dmz::QtPluginWaveState::on_periodSlider_valueChanged (int value) {
 
-   _update_attribute (_waveNumberAttributeHandle, value > 0.0 ? (1.0 / value) : 0.001);
+   const Float64 Update = (Float64 (value) * 0.01 * _periodRange) + _periodMin; 
+
+   _ui.periodLabel->setNum (Update);
+
+   _update_attribute (_waveNumberAttributeHandle, Update > 0.0 ? 1.0 / Update : 0.001);
 }
 
 
