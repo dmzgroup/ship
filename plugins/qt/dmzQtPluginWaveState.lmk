@@ -1,0 +1,14 @@
+require "lmkQt"
+
+lmkQt.set_name "dmzQtPluginWaveState"
+lmk.set_type "plugin"
+lmk.add_files {"waveState.ui",}
+lmk.add_files ({"dmzQtPluginWaveState.h",}, {src="moc"})
+lmk.add_files {"dmzQtPluginWaveState.cpp",}
+lmk.add_libs {
+   "dmzQtUtil",
+   "dmzObjectUtil",
+   "dmzKernel",
+}
+lmk.add_preqs {"dmzObjectFramework",}
+lmkQt.add_libs {"QtCore","QtGui",}
