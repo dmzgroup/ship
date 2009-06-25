@@ -226,15 +226,18 @@ dmz::QtPluginWaveState::_init (Config &local) {
    activate_default_object_attribute (ObjectCreateMask | ObjectDestroyMask);
 
    _waveSpeedAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-speed.attribute", local, "DMZ_Wave_State_Speed"),
+      config_to_string ("wave-speed-attribute.name", local, "DMZ_Wave_State_Speed"),
       ObjectScalarMask);
 
    _waveAmplitudeAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-amplitude.attribute", local, "DMZ_Wave_State_Amplitude"),
+      config_to_string (
+         "wave-amplitude-attribute.name",
+         local,
+         "DMZ_Wave_State_Amplitude"),
       ObjectScalarMask);
 
    _waveNumberAttributeHandle = activate_object_attribute (
-      config_to_string ("wave-number.attribute", local, "DMZ_Wave_State_Number"),
+      config_to_string ("wave-number-attribute.name", local, "DMZ_Wave_State_Number"),
       ObjectScalarMask);
 
    _waveType = config_to_object_type ("wave-type.name", local, "wave-state", context);
@@ -256,6 +259,12 @@ dmz::QtPluginWaveState::_init (Config &local) {
          &_log);
 
       subscribe_to_message (_showMsg);
+   }
+
+   if (config_to_boolean ("console.show", local, False) && !isVisible ()) {
+
+      show ();
+      activateWindow ();
    }
 }
 

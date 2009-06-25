@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dmz>
+<plugin-list>
+   <plugin name="dmzQtPluginWaveState" scope="wave"/>
+   <plugin name="dmzPluginTermExit"/>
+</plugin-list>
+<archive>
+   <object type="wave-state">
+      <attributes name="DMZ_Wave_State_Speed">
+         <scalar value="1.0"/>
+      </attributes>
+      <attributes name="DMZ_Wave_State_Amplitude">
+         <scalar value="1.5"/>
+      </attributes>
+      <attributes name="DMZ_Wave_State_Number">
+         <scalar value="0.01"/>
+      </attributes>
+   </object>
+</archive>
+<wave>
+   <console show="true"/>
+</wave>
+</dmz>
+  

@@ -56,6 +56,8 @@ namespace dmz {
             const Float64 Value,
             const Float64 *PreviousValue);
 
+         // QtPluginWaveState Interface
+
       protected slots:
          void on_speedSlider_valueChanged (int value);
          void on_amplitudeSlider_valueChanged (int value);
@@ -86,7 +88,6 @@ namespace dmz {
 
          Float64 _periodMin;
          Float64 _periodRange;
-        
 
       private:
          QtPluginWaveState ();
