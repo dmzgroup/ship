@@ -3,6 +3,7 @@
 
 #include <dmzObjectObserverUtil.h>
 #include <dmzRuntimeLog.h>
+#include <dmzRuntimeMessaging.h>
 #include <dmzRuntimeObjectType.h>
 #include <dmzRuntimePlugin.h>
 #include <QtGui/QWidget>
@@ -13,6 +14,7 @@ namespace dmz {
    class QtPluginWaveState :
          public QWidget,
          public Plugin,
+         public MessageObserver,
          public ObjectObserverUtil {
 
       Q_OBJECT
@@ -29,6 +31,14 @@ namespace dmz {
          virtual void discover_plugin (
             const PluginDiscoverEnum Mode,
             const Plugin *PluginPtr);
+
+         // Message Observer Interface
+         virtual void receive_message (
+            const Message &Type,
+            const Handle MessageSendHandle,
+            const Handle TargetObserverHandle,
+            const Data *InData,
+            Data *outData);
 
          // Object Observer Interface
          virtual void create_object (
@@ -57,6 +67,8 @@ namespace dmz {
 
          Log _log;
          Ui::waveState _ui;
+
+         Message _showMsg;
 
          ObjectType _waveType;
 

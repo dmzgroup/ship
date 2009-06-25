@@ -15,6 +15,9 @@
       <converter key="L">
          <target name="dmzQtExtLuaConsole" message="DMZ_Show_Lua_Console"/>
       </converter>
+      <converter key="C">
+         <target name="dmzQtPluginWaveState" message="DMZ_Show_Wave_Control_Panel"/>
+      </converter>
    </channel>
 </key-messages>
 <dmzInputPluginControllerMacOS>

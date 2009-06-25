@@ -14,6 +14,7 @@
 
 dmz::QtPluginWaveState::QtPluginWaveState (const PluginInfo &Info, Config &local) :
       Plugin (Info),
+      MessageObserver (Info),
       ObjectObserverUtil (Info, local),
       _log (Info),
       _wave (0),
@@ -47,7 +48,6 @@ dmz::QtPluginWaveState::update_plugin_state (
 
    if (State == PluginStateInit) {
 
-      show ();
    }
    else if (State == PluginStateStart) {
 
@@ -88,6 +88,22 @@ dmz::QtPluginWaveState::discover_plugin (
    }
    else if (Mode == PluginDiscoverRemove) {
 
+   }
+}
+
+// Message Observer Interface
+void
+dmz::QtPluginWaveState::receive_message (
+      const Message &Type,
+      const Handle MessageSendHandle,
+      const Handle TargetObserverHandle,
+      const Data *InData,
+      Data *outData) {
+
+   if (Type == _showMsg) {
+
+      show ();
+      activateWindow ();
    }
 }
 
@@ -231,6 +247,15 @@ dmz::QtPluginWaveState::_init (Config &local) {
       restoreGeometry (geometry);
 
       if (config_to_boolean ("window.visible", session, False)) { show (); }
+
+      _showMsg = config_create_message (
+         "message-show.name",
+         local,
+         "DMZ_Show_Wave_Control_Panel",
+         context,
+         &_log);
+
+      subscribe_to_message (_showMsg);
    }
 }
 
