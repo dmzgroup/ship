@@ -2,6 +2,7 @@
 <dmz>
 <lua>
    <instance name="ship"/>
+   <instance name="clutter"/>
 </lua>
 <archive>
    <object type="lcs">

@@ -177,5 +177,17 @@
          </node>
       </node>
    </template>
+   <template name="clutter">
+      <node type="switch" name="switch">
+         <node type="transform" name="transform">
+            <node type="box">
+               <min x="-3" y="-3"/>
+               <max x="3" y="3"/>
+               <color r="0" g="1" b="0"/>
+               <depth value="2"/>
+            </node>
+         </node>
+      </node>
+   </template>
 </overlay>
 </dmz>

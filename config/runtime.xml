@@ -34,6 +34,11 @@
          <rule type="heartbeat" value="1.0"/>
       </net>
    </object-type>
+   <object-type name="clutter">
+      <render>
+         <overlay name="clutter"/>
+      </render>
+   </object-type>
    <object-type name="spectator">
    </object-type>
    <object-type name="munitions">
