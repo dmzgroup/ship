@@ -1,6 +1,6 @@
 local function update_time_slice (self, time)
    local ctime = dmz.time.frame_time ()
-   if math.random () * 900.0 < (self.amplitude * self.amplitude) then
+   if math.random () * 900.0 < math.pow (self.amplitude, 2) then
       local offset = dmz.object.position (dmz.object.hil ())
       if not offset then offset = dmz.vector.new () end
       local handle = dmz.object.create ("clutter")

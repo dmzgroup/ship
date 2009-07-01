@@ -24,7 +24,8 @@
       <plugin name="dmzRenderExtViewerOSG" scope="viewer"/>
    </plugin-list>
    <viewer>
-      <window-title value="NPSNET: LCS"/>
+      <window-title value="NPSNET: LCS Demo"/>
+      <aa samples="4"/>
    </viewer>
    <visibility fov="60.0" near="1.0" far="32000.0"/>
    <light value="0">
