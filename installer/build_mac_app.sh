@@ -10,8 +10,9 @@ cp $DEPTH/depend/Qt/QtSvg $DEPTH/lcsdemo.app/Contents/Frameworks/Qt
 cp $DEPTH/depend/Qt/QtOpenGL $DEPTH/lcsdemo.app/Contents/Frameworks/Qt
 OSGDIR=$DEPTH/lcsdemo.app/Contents/Frameworks/osg
 OSGPLUGINDIRPRE=$DEPTH/lcsdemo.app/Contents/PlugIns/
-OSGPLUGINDIR=$DEPTH/lcsdemo.app/Contents/PlugIns/osgPlugins-2.8.0
-#OSGPLUGINDIR=$OSGDIR/osgPlugins-2.6.1
+#OSG Version is not need for OSG plugins to load in App bundle.
+#OSGPLUGINDIR=$DEPTH/lcsdemo.app/Contents/PlugIns/osgPlugins-2.8.1
+OSGPLUGINDIR=$DEPTH/lcsdemo.app/Contents/PlugIns/
 mkdir $OSGDIR
 mkdir $OSGPLUGINDIRPRE
 mkdir $OSGPLUGINDIR
