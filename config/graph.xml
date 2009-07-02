@@ -1,0 +1,21 @@
+<dmz>
+<lua>
+   <instance name="graphOverlay"/>
+</lua>
+<overlay>
+   <node type="switch" name="graph switch" which="-1">
+      <node type="transform" name="graph slider">
+         <scale x="0.001" y="0.001"/>
+         <node type="box">
+            <min x="-256" y="-128"/>
+            <max x="256" y="128"/>
+            <texture resource="graph"/>
+         </node>
+      </node>
+   </node>
+   <layout node="graph slider">
+      <x type="relative" value="0.5"/>
+      <y type="relative" value="0.5"/>
+   </layout>
+</overlay>
+</dmz>

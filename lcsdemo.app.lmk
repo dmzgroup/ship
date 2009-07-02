@@ -1,0 +1,94 @@
+require "app"
+lmk.set_name ("lcsdemoapp")
+lmk.add_vars {
+   appName = "LCS Demo",
+   majorVersion = "1",
+   minorVersion = "0",
+   bugVersion = "0",
+   releaseType = "test 1",
+   --aboutImage = "./assets/DMZ-Icon.png",
+}
+lmk.add_files ({"version.xml",}, {src="version",})
+lmk.add_files {"lcsdemo.app"}
+lmk.add_preqs ({"dmzAudioModuleOpenAL",}, { macos = true })
+lmk.add_preqs ({"dmzAudioModuleFMOD",}, { win32 = true })
+lmk.add_preqs {
+   "lcsdemo",
+   "dmzArchiveModuleBasic",
+   "dmzArchivePluginAutoLoad",
+   "dmzArchivePluginQuickSave",
+   "dmzArchivePluginObject",
+   "dmzObjectModuleBasic",
+   "dmzEventModuleBasic",
+   "dmzEventModuleCommonBasic",
+   "dmzAudioModulePortalBasic",
+   "dmzAudioPluginObject",
+   "dmzAudioPluginEvent",
+   "dmzInputModuleBasic",
+   "dmzInputPluginControllerKey",
+   "dmzInputPluginExit",
+   "dmzInputPluginKeyEventToMessage",
+   "dmzNetPluginPacket",
+   "dmzNetPluginRemoteDR",
+   "dmzNetModuleLocalDRBasic",
+   "dmzNetPluginRemoteTimeout",
+   "dmzNetModulePacketCodecBasic",
+   "dmzNetExtPacketCodecObjectNative",
+   "dmzNetExtPacketCodecEventNative",
+   "dmzNetModulePacketIOHawkNL",
+   "dmzNetModuleAttributeMapBasic",
+   "dmzRenderModuleIsectOSG",
+   "dmzRenderModulePortalOSG",
+   "dmzRenderPluginStaticTerrainOSG",
+   "dmzRenderPluginWavesOSG",
+   "dmzRenderPluginObjectOSG",
+   "dmzRenderPluginParticleEffectsOSG",
+   "dmzRenderPluginArticulateOSG",
+   "dmzRenderPluginDisableObjectIsect",
+   "dmzRenderPluginLightingOSG",
+   "dmzRenderModuleOverlayOSG",
+   "dmzRenderModuleCoreOSGBasic",
+   "dmzRenderExtViewerOSG",
+   "dmzEntityPluginPortalTether",
+   "dmzEntityPluginTeleport",
+   "dmzObjectPluginTimeout",
+   "dmzRenderPluginRadarOverlay",
+   "dmzLuaModuleBasic",
+   "dmzLuaExtInput",
+   "dmzLuaExtIsect",
+   "dmzLuaExtObject",
+   "dmzLuaExtEvent",
+   "dmzLuaExtOverlay",
+   "dmzLuaExtPortal",
+   "dmzQtExtLuaConsole",
+   "dmzLuaPluginReset",
+   "dmzRenderModulePickBasic",
+   "dmzRenderPluginPickOSG",
+   "dmzInputPluginMouseEventToMessage",
+   "dmzQtPluginWaveState",
+}
+app.set_app ("lcsdemo")
+app.set_plist ("Info.plist")
+app.add_icons {"AppIcon.icns"}
+app.add_config {
+   "config/",
+   "$(localTmpDir)/version.xml",
+}
+app.add_data {
+   "assets/DMZ-Splash.png",
+   "../../assets/ship",
+}
+app.add_scripts {
+   "../dmz/scripts/entity/dmzEntityPluginFreeFly.lua",
+   "scripts/",
+}
+lmk.add_vars ({
+   installPaths = {
+      {"QtCore.framework/Versions/4/QtCore", "@executable_path/../Frameworks/Qt/QtCore"},
+      {"QtGui.framework/Versions/4/QtGui", "@executable_path/../Frameworks/Qt/QtGui"},
+      {"QtXml.framework/Versions/4/QtXml", "@executable_path/../Frameworks/Qt/QtXml"},
+      {"QtSvg.framework/Versions/4/QtSvg", "@executable_path/../Frameworks/Qt/QtSvg"},
+      {"QtOpenGL.framework/Versions/4/QtOpenGL", "@executable_path/../Frameworks/Qt/QtOpenGL"},
+   },
+}
+,{opt = true})

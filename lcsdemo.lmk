@@ -1,0 +1,4 @@
+require "qtshell"
+
+qtshell.set_up ("lcsdemo")
+lmk.add_files ({"lcsdemo.rc"},{win32 = true})
