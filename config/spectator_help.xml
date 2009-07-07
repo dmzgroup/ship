@@ -7,7 +7,7 @@
    </layout>
    <node type="transform" name="help transform">
       <node type="transform" name="help slider">
-         <position x="0" y="500"/>
+         <position x="0" y="480"/>
          <node type="text">
             <text>
         - Spectator Help -
@@ -23,13 +23,13 @@ Right Arrow Key:Turn Right
           q Key:Move Up
           z Key:Move Down
           h Key:Toggle Hud
+          g Key:Toggle Graph
           + Key:Increase Hud Range
           - Key:Decrease Hud Range
           r Key:Reset Hud Range
-          m Key:Create M1
-          t Key:Create T72
-    shift-R Key:Reset Lua Runtime
+    shift-C Key:Open Wave Console
     shift-L Key:Open Lua Console
+    shift-R Key:Reset Lua Runtime
      Return Key:Start Position
           ? Key:Help
         ESC Key:Quit
@@ -41,7 +41,7 @@ Right Arrow Key:Turn Right
             <depth value="15"/>
          </node>
          <node type="box">
-            <min x="-200" y="-500"/>
+            <min x="-200" y="-480"/>
             <max x="200" y="0"/>
             <color r="1" g="1" b="1" a="0.5"/>
             <depth value="14"/> 
