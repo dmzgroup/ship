@@ -6,7 +6,7 @@
 </plugin-list>
 <lua>
    <path value="./scripts/?.lua"/>
-   <extensions>
+   <plugin-list>
       <plugin name="dmzLuaExtInput"/>
       <plugin name="dmzLuaExtIsect"/>
       <plugin name="dmzLuaExtObject"/>
@@ -14,6 +14,6 @@
       <plugin name="dmzLuaExtOverlay"/>
       <plugin name="dmzLuaExtPortal"/>
       <plugin name="dmzQtExtLuaConsole"/>
-   </extensions>
+   </plugin-list>
 </lua>
 </dmz>
