@@ -5,7 +5,8 @@
    <plugin name="dmzLuaPluginReset" scope="lua"/>
 </plugin-list>
 <lua>
-   <path value="./scripts/?.lua"/>
+   <path value="../dmz/scripts/entity"/>
+   <path value="./scripts"/>
    <plugin-list>
       <plugin name="dmzLuaExtInput"/>
       <plugin name="dmzLuaExtIsect"/>
