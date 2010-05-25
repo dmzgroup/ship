@@ -2,7 +2,7 @@
 <dmz>
 <plugin-list>
    <plugin name="dmzQtPluginWaveState" scope="wave"/>
-   <plugin name="dmzPluginTermExit"/>
+   <plugin name="dmzPluginConsole"/>
 </plugin-list>
 <archive>
    <object type="wave-state">

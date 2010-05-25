@@ -11,7 +11,7 @@
    <!-- <plugin name="dmzPluginMsgDump"/> -->
    <!-- <plugin name="dmzObjectPluginDump"/> -->
    <!-- <plugin name="dmzEventPluginDump"/> -->
-   <!-- <plugin name="dmzPluginTermExit"/> -->
+   <!-- <plugin name="dmzPluginConsole"/> -->
    <!-- <plugin name="dmzRenderPluginPortalSize"/> -->
 </plugin-list>
 <dmzArchivePluginObject>
