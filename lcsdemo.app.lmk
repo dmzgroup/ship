@@ -12,7 +12,7 @@ lmk.add_files ({"version.xml",}, {src="version",})
 lmk.add_files {"lcsdemo.app"}
 lmk.add_preqs ({"dmzAudioModuleOpenAL",}, { macos = true })
 lmk.add_preqs ({"dmzAudioModuleFMOD",}, { win32 = true })
-lmk.add_preqs {"scripts", "lcsdemo",}
+lmk.add_preqs {"lcsdemo",}
 app.build_preqs {"config",}
 app.set_app ("lcsdemo")
 app.set_plist ("Info.plist")
@@ -24,7 +24,7 @@ app.add_data {
    "../../assets/ship",
 }
 app.add_scripts {
-   "$(scripts.localPwd)/entity/dmzEntityPluginFreeFly.lua",
+   "../lua/scripts/entity/dmzEntityPluginFreeFly.lua",
    "scripts/",
 }
 lmk.add_vars ({
